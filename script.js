@@ -244,7 +244,7 @@
     const typeSelected = form.querySelector('input[name="enquiry_type"]:checked');
     const typeError    = document.getElementById('f-type-error');
     if (!typeSelected) {
-      if (typeError) typeError.textContent = 'Please select whether you're hiring or looking.';
+      if (typeError) typeError.textContent = "Please select whether you're hiring or looking.";
       valid = false;
     } else {
       if (typeError) typeError.textContent = '';
