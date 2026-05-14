@@ -145,37 +145,33 @@
 
   function expandAnswer(el) {
     el.hidden = false;
-    // Animate height via max-height trick
-    el.style.maxHeight = '0';
     el.style.overflow  = 'hidden';
+    el.style.maxHeight = '0';
+    void el.offsetHeight; // force reflow so max-height:0 is committed before transition starts
     el.style.transition = 'max-height 0.35s ease';
-    // Force reflow then set target height
-    requestAnimationFrame(function () {
-      el.style.maxHeight = el.scrollHeight + 'px';
-    });
+    el.style.maxHeight  = el.scrollHeight + 'px';
     el.addEventListener('transitionend', function cleanup() {
       el.style.maxHeight = '';
       el.style.overflow  = '';
       el.style.transition = '';
       el.removeEventListener('transitionend', cleanup);
-    });
+    }, { once: true });
   }
 
   function collapseAnswer(el) {
     if (el.hidden) return;
-    el.style.maxHeight  = el.scrollHeight + 'px';
-    el.style.overflow   = 'hidden';
+    el.style.overflow  = 'hidden';
+    el.style.maxHeight = el.scrollHeight + 'px';
+    void el.offsetHeight; // force reflow so current height is committed before transition
     el.style.transition = 'max-height 0.3s ease';
-    requestAnimationFrame(function () {
-      el.style.maxHeight = '0';
-    });
+    el.style.maxHeight  = '0';
     el.addEventListener('transitionend', function cleanup() {
       el.hidden = true;
       el.style.maxHeight  = '';
       el.style.overflow   = '';
       el.style.transition = '';
       el.removeEventListener('transitionend', cleanup);
-    });
+    }, { once: true });
   }
 })();
 
